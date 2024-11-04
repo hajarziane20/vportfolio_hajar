@@ -19,7 +19,7 @@ body {
     margin: 0 auto;
 }
 
-/* Individual Image Container */
+/* Contenedor de imagen individual*/
 .galeria div {
     display: flex;
     flex-direction: column;

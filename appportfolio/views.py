@@ -391,6 +391,7 @@ def editar_video(request, video_id):
 def eliminar_video(request, video_id):
     video = get_object_or_404(Video, id=video_id)
     if request.method == 'POST':
+        print("BORRAMOS VIDEO")
         video.delete()
         return redirect('subir_videos')
     return redirect('subir_videos')
