@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Vportfolio</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/multimedia.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Subir Imágenes</h1>
+<form method="post" enctype="multipart/form-data" style="text-align: center; margin-bottom: 20px;">
+    {% csrf_token %}
+    <input type="file" name="imagenes" multiple required>
+    <button type="submit" class="btn btn-primary">Subir</button>
+</form>
+
+<h2>Galería de Imágenes</h2>
+<div class="galeria">
+    {% for imagen in imagenes %}
+        {% if imagen.imagen %}
+            <div>
+                <img src="{{ imagen.imagen.url }}" alt="{{ imagen.imagen }}">
+                <p class="project-title">Your Project Title Here</p>
+
+                <button type="button" onclick="mostrarInput('{{ imagen.id }}')">Editar</button>
+
+                <form method="post" action="{% url 'editar_imagen' imagen.id %}" enctype="multipart/form-data" id="form-editar-{{ imagen.id }}" style="display: none;">
+                    {% csrf_token %}
+                    <input type="file" name="nueva_imagen" required>
+                    <button type="submit">Guardar</button>
+                </form>
+
+                <form method="post" action="{% url 'eliminar_imagen' imagen.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // JavaScript para mostrar el campo de entrada de archivo y el botón de "Guardar" solo al hacer clic en "Editar"
+    function mostrarInput(imagenId) {
+        // Oculta todos los formularios de edición para evitar duplicados visibles
+        document.querySelectorAll('[id^="form-editar-"]').forEach(form => form.style.display = 'none');
+
+        // Muestra el formulario correspondiente a la imagen seleccionada
+        document.getElementById('form-editar-' + imagenId).style.display = 'block';
+    }
+</script>
+{% endblock %}

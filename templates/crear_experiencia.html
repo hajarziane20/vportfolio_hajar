@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{# {% load staticfiles %} #}
+{% load static %}
+
+{% block head %}
+<title>Networking</title>
+{% endblock %}
+
+ {% block content %}
+    <h1>Crear Experiencia</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="empresa">Empresa:</label>
+        <input type="text" name="empresa" id="empresa" required><br>
+
+        <label for="fecha_inicio">Fecha Inicio:</label>
+        <input type="date" name="fecha_inicio" id="fecha_inicio" required><br>
+
+        <label for="fecha_fin">Fecha Fin:</label>
+        <input type="date" name="fecha_fin" id="fecha_fin" required><br>
+
+        <label for="observaciones">Observaciones:</label>
+        <input type="text" name="observaciones" id="observaciones" required><br>
+        
+        <label for="categoria">Categoria:</label>
+        <input type="text" name="categoria" id="categoria" required><br>
+
+        <button type="submit">Crear</button>
+    </form>
+{% endblock content %}

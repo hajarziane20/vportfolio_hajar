@@ -1,0 +1,108 @@
+/* Estilo general para la tabla de categorías */
+.tabla {
+    max-width: 1000px; /* Ancho máximo de la tabla */
+    margin: 20px auto; /* Centramos la tabla */
+    border-collapse: collapse; /* Colapsar bordes */
+    width: 100%; /* Ancho completo */
+    border: 1px solid #ddd; /* Borde ligero */
+}
+
+/* Encabezados de la tabla */
+.encabezado {
+    background-color: #000000; /* Color de fondo de los encabezados */
+    color: #fff; /* Color del texto */
+    padding: 10px; /* Espaciado interno */
+    text-align: center; /* Alinear texto a la izquierda */
+}
+
+/* Estilo para las celdas de la tabla */
+
+
+td {
+    border: 1px solid #ddd; /* Borde de celdas */
+    padding: 8px; /* Espaciado interno */
+    text-align: center; /* Centrar el contenido de todas las celdas */
+}
+
+/* Estilo específico para la columna de operaciones */
+td .btn-operaciones {
+    display: inline-block; /* Permitir margen y espaciado */
+}
+
+/* Estilo para los botones de operaciones */
+.btn-operaciones {
+    background-color: #000000; /* Fondo negro */
+    color: white; /* Texto blanco */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+.btn-operaciones:hover {
+    background-color: #b59b7b; /* Color más claro al pasar el ratón */
+}
+
+/* Estilo para la paginación */
+.paginacion {
+    list-style: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+    display: flex; /* Usar flexbox para la paginación */
+    justify-content: center; /* Centrar los elementos */
+    margin-top: 20px; /* Margen superior */
+}
+
+.paginacion li {
+    margin: 0 5px; /* Margen entre los elementos */
+}
+
+.paginacion a {
+    display: block; /* Hacer el enlace un bloque */
+    padding: 8px 12px; /* Espaciado interno */
+    background-color: #f0f0f0; /* Color de fondo */
+    border: 1px solid #ddd; /* Borde ligero */
+    border-radius: 4px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    color: #333; /* Color del texto */
+}
+
+.paginacion a:hover {
+    background-color: #a41f13; /* Fondo al pasar el ratón */
+    color: white; /* Texto blanco al pasar el ratón */
+}
+
+/* Estilo para el enlace activo */
+.paginacion .active a {
+    background-color: #a41f13; /* Color de fondo para la página activa */
+    color: white; /* Texto blanco */
+    pointer-events: none; /* Desactivar el enlace activo */
+}
+
+/* Estilo para los enlaces desactivados */
+.paginacion .disabled span {
+    background-color: #ddd; /* Color de fondo para deshabilitar */
+    color: #aaa; /* Color del texto deshabilitado */
+    padding: 8px 12px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+}
+/* Estilos para el contenedor de las imágenes */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espacio entre las imágenes */
+}
+
+/* Estilos para las imágenes */
+.imagen {
+    width: 200px; /* Ajusta el tamaño según lo que prefieras */
+    height: 200px;
+    border-radius: 50% 40% 60% 50%; /* Borde orgánico y espontáneo */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Sombra suave */
+    object-fit: cover; /* Asegura que la imagen se recorte bien dentro del contorno */
+    transition: transform 0.3s ease; /* Efecto de transición */
+}
+
+.imagen:hover {
+    transform: scale(1.05); /* Hace la imagen ligeramente más grande al pasar el ratón */
+}

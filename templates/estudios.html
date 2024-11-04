@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{# {% load staticfiles %} #} <!-- forma anterior -->
+{% load static %}
+
+{% block head %}
+<title>Portfolio Estudios</title>
+    <!-- Librerias -->
+{% endblock %}
+
+ {% block content %}
+
+ <br><br><br><br>
+  <center>
+  <font color="#686868" size="5" face="Garamond">ESTUDIOS</font>
+      <h3>Número de registros: {{ numregistros }}</h3>
+   <br>
+  <img src="{% static 'images/chica1.jpg'%}" height='340' width='390'> <!-- CARGAMOS RECURSO -->
+
+
+ {% if not request.user.is_authenticated %}
+    <h2>ANÓNIMO</h2>
+ {% endif %}
+
+ {% if request.user.is_authenticated %}
+     <h2>USUARIO REGISTRADO</h2>
+ {% endif %}
+ </center>
+<font size="3">
+<table class="tabla">
+	<thead>
+        <tr>
+			<th class="encabezado">ID</th>
+			<th class="encabezado">TITULO</th>
+
+			<th colspan="3" class="encabezado">OPERACIONES</th><!-- Una columna adicional del crud -->
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for r in lista_estudios %}<!-- PINTAMOS LAS CATEGORIAS, lista_categorias viene del contexto -->
+       <tr>
+           <td> {{ r.id }} </td>
+           <td> {{ r.titulo|upper }} </td><!-- upper para que salga mayus, slice: cortar las palabras matemáticas mates (0 primer char y 12 es el máx, donde corta-->
+
+
+        <form action="" method="post">
+        {% csrf_token %} <!-- token de seguridad de los formularios, la primera linea del forms, proteger contra los háckers, No se cierra -->
+        <td><a class='btn-operaciones' href="{% url 'home' %}">
+        VER</a></td> <!-- URL: EL PARA QUE NO DE ERROR -->
+        <td><a class='btn-operaciones'  href="{% url 'home' %}">ELIMINAR</a></td>
+        <td><a class='btn-operaciones' href="{% url 'home' %}">EDITAR</a></td>
+        </form>
+      </tr>
+    {% endfor %}
+     </tbody>
+    </table>
+</font>
+
+{% if lista_estudios.has_other_pages %}
+<font size="4">
+  <ul class="paginacion"> <!-- Cambié "pagination" por "paginacion" para que coincida con el estilo de lista_experiencias -->
+    {% if lista_estudios.has_previous %}
+      <li><a href="?page={{ lista_estudios.previous_page_number }}">&laquo;</a></li> <!-- Mantuve el estilo de lista_experiencias -->
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in lista_estudios.paginator.page_range %}
+      {% if lista_estudios.number == i %}
+        <li class="active"><a href="#">{{ i }}</a></li> <!-- Cambié 'span' por 'a href="#"' según el formato de lista_experiencias -->
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if lista_estudios.has_next %}
+      <li><a href="?page={{ lista_estudios.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</font>
+{% endif %}
+
+
+
+
+{% endblock content %}

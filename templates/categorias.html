@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Portfolio Categorías</title>
+{% endblock %}
+
+{% block content %}
+
+<br><br><br><br>
+<center>
+    <h2 class="titulo">CATEGORIAS</h2>
+    <br>
+    <img src="{% static 'images/chica1.jpg' %}" height='340' width='390' alt="Imagen de Categorías"> <!-- CARGAMOS RECURSO -->
+
+
+{% if not request.user.is_authenticated %}
+    <h2 class="estado-usuario">ANÓNIMO</h2>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    <h2 class="estado-usuario">USUARIO REGISTRADO</h2>
+{% endif %}
+</center>
+<div >
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th class="encabezado">ID</th>
+                <th class="encabezado">CATEGORIA</th>
+                <th colspan="3" class="encabezado">OPERACIONES</th> <!-- Una columna adicional del CRUD -->
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for r in lista_categorias %} <!-- PINTAMOS LAS CATEGORIAS, lista_categorias viene del contexto -->
+            <tr>
+                <td>{{ r.id }}</td>
+                <td>{{ r.nombre_categoria|upper }}</td> <!-- upper para que salga en mayúsculas -->
+                <form action="" method="post">
+                    {% csrf_token %} <!-- Token de seguridad de los formularios -->
+                    <td><a class='btn-operaciones' href="{% url 'home' %}">VER</a></td>
+                    <td><a class='btn-operaciones' href="{% url 'home' %}">ELIMINAR</a></td>
+                    <td><a class='btn-operaciones' href="{% url 'home' %}">EDITAR</a></td>
+                </form>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if lista_categorias.has_other_pages %}
+<font size="4">
+  <ul class="paginacion"> <!-- Cambié "pagination" a "paginacion" para coincidir con el formato de lista_experiencias -->
+    {% if lista_categorias.has_previous %}
+      <li><a href="?page={{ lista_categorias.previous_page_number }}">&laquo;</a></li> <!-- Estilo de lista_experiencias -->
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in lista_categorias.paginator.page_range %}
+      {% if lista_categorias.number == i %}
+        <li class="active"><a href="#">{{ i }}</a></li> <!-- Cambié 'span' por 'a href="#"' según el formato de lista_experiencias -->
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if lista_categorias.has_next %}
+      <li><a href="?page={{ lista_categorias.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</font>
+{% endif %}
+
+
+{% endblock content %}

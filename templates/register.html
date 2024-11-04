@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Registrar Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{% static 'css/cssUsers.css' %}">
+{% endblock %}
+
+{% block content %}
+    <br><br><br>
+    <div>
+        <p style="font-size: 24px;">REGISTRAR USUARIO</p>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+{% endblock content %}

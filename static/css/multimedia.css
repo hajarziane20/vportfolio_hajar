@@ -1,0 +1,109 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Gallery Container */
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Individual Image Container */
+.galeria div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.galeria div:hover {
+    transform: translateY(-5px);
+}
+
+/* Image Styling with Fixed Size */
+.galeria img {
+    width: 100%;
+    max-width: 300px; /* Ensure images do not exceed this width */
+    height: 300px; /* Fixed height for uniform size */
+    border-radius: 5px;
+    object-fit: cover; /* Keeps the aspect ratio by cropping if necessary */
+    object-position: center;
+}
+
+/* Button Styling */
+button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="button"] {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button[type="submit"] {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Edit and Delete Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+form input[type="file"] {
+    margin-bottom: 10px;
+}
+
+/* Text Styling */
+h1, h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+}
+
+.galeria div p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Placeholder Title for Each Project */
+.project-title {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+}

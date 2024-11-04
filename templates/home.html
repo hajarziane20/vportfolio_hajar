@@ -1,0 +1,60 @@
+{% extends "base.html" %} <!-- hereda de base.html -->
+{% load static %}
+
+{% block head %}
+<title>Portfolio</title>
+{% endblock %}
+
+{% block content %} <!-- Body -->
+
+<br><br><br><br>
+{% if not request.user.is_authenticated %}
+    <center>
+    <h1 class="titulo">PÁGINA DE INICIO</h1>
+        <p>Bienvenido, {{ user.username }}!</p>
+    <div class="imagenes-container">
+        <img src="{% static 'images/p3.jpg' %}" class="imagen" alt="Imagen 1">
+        <img src="{% static 'images/p1.jpg' %}" class="imagen" alt="Imagen 2">
+        <img src="{% static 'images/p2.jpg' %}" class="imagen" alt="Imagen 3">
+    </div>
+    </center>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    <center>
+        <h2 class="titulo">LISTADO DE ESTUDIOS OFICIALES</h2>
+        <p class="nombre-proyecto">{{ nombreProyecto }}</p> <!-- para pintar una variable -->
+        <span>{{ user.username }}</span>
+        <span><img alt="Avatar" src="{{ fotoperfil }}"/></span>
+    </center>
+{% endif %}
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{# {% load staticfiles %} #}
+{% load static %}
+
+{% block head %}
+<title>Networking</title>
+     <link rel="stylesheet" href="{% static 'css/experiencias.css' %}">
+{% endblock %}
+
+ {% block content %}
+
+ <br><br><br><br>
+  <center>
+  <font color="black" size="5" >EXPERIENCIAS</font>
+   <br>
+    <!--<img src="{% static 'images/chica1.jpg'%}" height='340' width='390'>-->
+      <!-- error,forma de llamar al html, python no puede llamar a html solo -->
+  </center>
+     <center>
+     <a  href="{% url 'crear_experiencia' %}" class='añadir'>Añadir Experiencia</a>
+</center>
+ {% if not request.user.is_authenticated %}
+
+ {% endif %}
+
+ {% if request.user.is_authenticated %}
+ {% endif %}
+
+<font size="3">
+<table class="tabla">
+	<thead>
+        <tr>
+			<th class="encabezado">ID</th>
+			<th class="encabezado">EMPRESA</th>
+			<th colspan="4" class="encabezado">OPERACIONES</th>
+        </tr>
+		</thead>
+		<tbody>
+        {% for r in lista_experiencias %}
+            <tr>
+				<td> {{ r.id }} </td>
+                <td> {{ r.empresa|upper|slice:"0:12" }} </td>
+
+
+            <form action="" method="post">
+            {% csrf_token %} <!-- sin el token de seguridad no funciona, lo obliga Django, es como try catch. Se pone pegado al form.-->
+			<!-- ojo las url no llevan / -->
+			<td><a class='btn-operaciones' href="{% url 'ver_experiencia' id=r.id %}">VER</a></td> <!-- id=r.id  esta es la clave. -->
+			<td><a class='btn-operaciones'  href="{% url 'eliminar_experiencia' pk=r.id %}">ELIMINAR</a></td> <!-- este es el coge el id, lo pasa a urls.py y este a veiws.py-->
+			<td><a class='btn-operaciones' href="{% url 'editar_experiencia' experiencia_id=r.id %}">EDITAR</a></td>
+            </form>
+            </tr>
+        {% endfor %}
+		 </tbody>
+    </table>
+</font>
+{% if lista_experiencias.has_other_pages %}
+<font size="4">
+  <ul class="paginacion">
+    {% if lista_experiencias.has_previous %}
+      <li><a href="?page={{ lista_experiencias.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in lista_experiencias.paginator.page_range %}
+      {% if lista_experiencias.number == i %}
+        <li class="active"><a href="#">{{ i }}</a></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if lista_experiencias.has_next %}
+      <li><a href="?page={{ lista_experiencias.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</font>
+{% endif %}
+
+
+
+{% endblock content %}

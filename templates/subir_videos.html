@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{# {% load staticfiles %} #}
+{% load static %}
+
+{% block head %}
+<title>Networking</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .galeria {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .video {
+        margin: 10px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        max-width: 320px;
+    }
+    .video video {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Subir Videos</h1>
+<form method="post" enctype="multipart/form-data" style="text-align: center; margin-bottom: 20px;">
+    {% csrf_token %}
+    <input type="file" name="videos" multiple required>
+    <button type="submit">Subir</button>
+</form>
+
+<h2>Galería de Videos</h2>
+<div class="videos">
+    {% for video in videos %}
+        {% if video.video %}
+            <div class="video">
+                    <video width="320" height="240" controls>
+                        <source src="{{ video.video_url }}" type="video/mp4">
+                        <p>Tu navegador no soporta el elemento de video.</p>
+                    </video>
+                
+                <!-- Botón para Mostrar el Campo de Entrada para Editar video -->
+                <button type="button" class="btn btn-primary btn-sm" onclick="mostrarInput('{{ video.id }}')">Editar</button>
+    
+                <!-- Formulario para Editar video (oculto inicialmente) -->
+                <form id="form-editar-{{ video.id }}" style="display: none;" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="nuevo_video" required>
+                    <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                </form>
+    
+                <!-- Botón para Eliminar Imagen -->
+                <form action="{% url 'eliminar_video' video.id %}" method="post" style="margin-top: 5px;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </div>
+        
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // JavaScript para mostrar el campo de entrada de archivo y el botón de "Guardar" solo al hacer clic en "Editar"
+    function mostrarInput(videoId) {
+        // Oculta todos los formularios de edición para evitar duplicados visibles
+        document.querySelectorAll('[id^="form-editar-"]').forEach(form => form.style.display = 'none');
+        
+        // Muestra el formulario correspondiente a la imagen seleccionada
+        document.getElementById('form-editar-' + videoId).style.display = 'block';
+    }
+</script>
+{% endblock %}

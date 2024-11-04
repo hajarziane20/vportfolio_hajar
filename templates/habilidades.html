@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{# {% load staticfiles %} #} <!-- forma anterior -->
+{% load static %}
+
+{% block head %}
+<title>Portfolio Habilidades</title>
+    <link rel="stylesheet" href="{% static 'css/experiencias.css' %}">
+ {% endblock %}
+
+ {% block content %}
+
+ <br><br><br><br>
+  <center>
+  <font color="#686868" size="5" face="Garamond">HABILIDADES</font>
+   <br>
+  <!--<img src="{% static 'images/chica1.jpg'%}" height='340' width='390'>  CARGAMOS RECURSO -->
+  </center>
+<center>
+     <a  href="{% url 'home' %}" class='añadir'>Añadir Experiencia</a>
+
+ {% if not request.user.is_authenticated %}
+    <h2>ANÓNIMO</h2>
+ {% endif %}
+
+ {% if request.user.is_authenticated %}
+     <h2>USUARIO REGISTRADO</h2>
+ {% endif %}
+</center>
+<font size="3">
+<table class="tabla">
+	<thead>
+        <tr>
+			<th class="encabezado">ID</th>
+			<th class="encabezado">HABILIDAD</th>
+			<th colspan="3" class="encabezado">OPERACIONES</th><!-- Una columna adicional del crud -->
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for r in lista_habilidades %}<!-- PINTAMOS LAS CATEGORIAS, lista_categorias viene del contexto -->
+       <tr>
+            <td> {{ r.id }} </td>
+            <td> {{ r.habilidad|upper }} </td><!-- upper para que salga mayus, slice: cortar las palabras matemáticas mates (0 primer char y 12 es el máx, donde corta-->
+        <form action="" method="post">
+        {% csrf_token %} <!-- token de seguridad de los formularios, la primera linea del forms, proteger contra los háckers, No se cierra -->
+        <td><a class='btn-operaciones' href="{% url 'ver_habilidad' id=r.id %}">VER</a></td> <!-- URL: EL PARA QUE NO DE ERROR -->
+        <td><a class='btn-operaciones'  href="{% url 'eliminar_habilidad' pkHab=r.id %}">ELIMINAR</a></td>
+        <td><a class='btn-operaciones' href="{% url 'home' %}">EDITAR</a></td>
+        </form>
+      </tr>
+    {% endfor %}
+     </tbody>
+    </table>
+</font>
+
+{% if lista_habilidades.has_other_pages %} <!-- obligatorio -->
+<font size="4">
+  <ul class="paginacion">
+    {% if lista_habilidades.has_previous %}
+      <li><a href="?page={{ lista_habilidades.previous_page_number }}">&laquo;</a></li> <!--?page es el q manda la página, navega al anterior -->
+     <!-- &laquo; << &raquo; >>-->
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li> <!-- si no hay previa lo desactiva y lo pone en gris -->
+    {% endif %}
+
+    {% for i in lista_habilidades.paginator.page_range %}  <!-- el rango de las páginas que hay que recorrer -->
+      {% if lista_habilidades.number == i %}
+          <li class="active"><a href="#">{{ i }}</a></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if lista_habilidades.has_next %}  <!--si hay siguiente -->
+      <li><a href="?page={{ lista_habilidades.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</font>
+{% endif %}
+
+
+{% endblock content %}

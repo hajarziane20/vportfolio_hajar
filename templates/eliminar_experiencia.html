@@ -1,0 +1,9 @@
+<br><br><br><br><br><br>
+
+<h1>Eliminar Experiencia</h1>
+<p>¿Estás seguro de que deseas eliminar la experiencia {{ experiencia.empresa }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning btn-sm" >Eliminar</button> <!--action es para decirle a donde ir. el submit sabe que debe eliminar porq vuelve a la función que la llama, primera llamada es para ir al html y luego vuelve a la función de eliminar-->
+    <a href="{% url 'home' %}" class="btn btn-warning btn-sm">Cancelar</a>
+</form>

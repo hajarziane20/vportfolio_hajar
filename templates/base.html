@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block description %}{% endblock %}"/>
+    <title>{% block title %} VPortfolio | Inicio {% endblock %}</title>
+    <link rel="stylesheet"  type="text/css" href="{% static 'css/styles.css' %}">
+    {% block head %}
+
+    {% endblock %}
+</head>
+<body>
+    {% include "navbar.html" %} <!-- Incluir la barra de navegación -->
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block scripts %}
+    <script>
+        // Almacenar la posición de scroll en el almacenamiento local
+        window.addEventListener("beforeunload", function () {
+            localStorage.setItem("scrollPosition", window.scrollY);
+        });
+
+        // Restaurar la posición de scroll al cargar la página
+        window.addEventListener("load", function () {
+            const scrollPosition = localStorage.getItem("scrollPosition");
+            if (scrollPosition) {
+                window.scrollTo(0, scrollPosition);
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

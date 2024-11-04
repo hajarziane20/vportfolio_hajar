@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{# {% load staticfiles %} #}
+{% load static %}
+
+{% block head %}
+<title>Networking</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+ {% endblock %}
+
+ {% block content %}
+
+ <br><br><br><br>
+  <center>
+  <font color="#686868" size="5" face="Comic Sans MS,Arial,Verdana">EXPERIENCIAS</font>
+   <br>
+  <img src="{% static 'images/chica1.jpg'%}" height='340' width='390'>
+  </center>
+
+<font size="3">
+<table class="table table-bordered">
+        <tr>
+			<td bgcolor="#F5DA81">ID</td>
+            <td bgcolor="#F5DA81">{{ experiencia.id }}}</td>
+        </tr>
+        <tr>
+			<td bgcolor="#F5DA81">EMPRESA</td>
+            <td bgcolor="#F5DA81">{{ experiencia.empresa }}</td>
+        </tr>
+        <tr>
+			<td bgcolor="#F5DA81">FECHA INICIO</td>
+            <td> {{ experiencia.fecha_inicio|date:"j/m/Y" }} </td>
+        </tr>
+    
+        <tr>
+			<td bgcolor="#F5DA81">FECHA FIN</td>
+            <td> {{ experiencia.fecha_fin|date:"j/m/Y" }} </td>
+        </tr>
+    
+        <tr>
+			<td bgcolor="#F5DA81">OBSERVACIONES</td>
+            <td> {{ experiencia.observaciones }} </td>
+        </tr>
+    
+        <tr>
+			<td bgcolor="#F5DA81">CATEGORIA</td>
+            <td> {{ experiencia.categoria }} </td>
+        </tr>
+    </table>
+</font>
+
+{% endblock content %}
