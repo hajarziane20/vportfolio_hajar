@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Vportfolio</title>
+{% endblock %}
+
+{% block content %}
+
+<br><br><br>
+
+
+<center><h1>ENVIAR EMAIL</h1>
+<form method="POST" action="{% url 'contacto' %}">
+    {% csrf_token %}
+    <input type="text" name="nombre" placeholder="nombre"><br>
+    <input type="text" name="email" placeholder="email"><br>
+    <input type="text" name="asunto" placeholder="asunto"><br>
+    <input type="text" name="mensaje" placeholder="mensaje"><br>
+    <button type="submit">Enviar</button>
+</form>
+</center>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{message}}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}

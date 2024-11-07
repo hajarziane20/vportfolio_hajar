@@ -137,3 +137,10 @@ TEMPLATE_LOADERS = ( #cargadores de templates, los que cargan el html
 TEMPLATE_DIRS = (
 )
 
+# correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'hajarziane24@gmail.com'  # emisor
+EMAIL_HOST_PASSWORD = 'ngez yvrw wlxn tikg'
+EMAIL_USE_TLS = True  # seguridad de gmail

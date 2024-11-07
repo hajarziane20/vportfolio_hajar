@@ -2,20 +2,28 @@
 from __future__ import unicode_literals
 
 from lib2to3.fixes.fix_input import context
+from tempfile import template
 
+from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect,get_object_or_404
 from contextlib import redirect_stderr
 from django.http import HttpResponse 
 from appportfolio.models import * #importamos los modelos.
+from django.contrib import messages
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger	#paginacion
 #fichero cuyos print aparecen en consola, es el archivo controlador
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User #contrib=permisos,usuarios,roles... de todos los nmodelos importamos User
 from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 import urllib #para saber las ip's conectadas
 from django.conf import settings
+
+
 '''
 def home(request): 
     cadena='<center><b>Inicio!</b></center>'
@@ -331,7 +339,7 @@ def entrevistadores(request):
    context={'titulo':titulo}
    return render(request, 'entrevistadores.html',context=context)
 '''##################################################
-#                     IMÁGENES                     #
+#                     MULTIMEDIA                     #
 ##################################################'''
 
 def subir_imagenes(request):
@@ -397,8 +405,31 @@ def eliminar_video(request, video_id):
     return redirect('subir_videos')
 
 
+def contacto(request):
+    if request.method == "POST":
+        nombre = request.POST.get('nombre')
+        user_email = request.POST.get('email')  # Cambié 'email' a 'user_email'
+        asunto = request.POST.get('asunto')
+        mensaje = request.POST.get('mensaje')
 
+        context = {'nombre': nombre, 'email': user_email, 'asunto': asunto, 'mensaje': mensaje}
+        template = render_to_string('email_template.html', context=context)
 
+        # Crear el objeto EmailMessage
+        email_message = EmailMessage(
+            asunto,
+            template,
+            settings.EMAIL_HOST_USER,
+            ['hajarziane24@gmail.com']
+        )
+
+        email_message.fail_silently = False  # Que no marque error en Gmail
+        email_message.send()
+
+        messages.success(request, 'Se ha enviado tu email')
+        return redirect('home')
+
+    return render(request, 'correo.html')
 
 
 
