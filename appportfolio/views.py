@@ -22,7 +22,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 import urllib #para saber las ip's conectadas
 from django.conf import settings
-
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 '''
 def home(request): 
@@ -342,29 +344,42 @@ def entrevistadores(request):
 #                     MULTIMEDIA                     #
 ##################################################'''
 
+
 def subir_imagenes(request):
-    #idUsuario=request.session['idusuario']
     if request.method == 'POST':
-        imagenes=request.FILES.getlist('imagenes')
+        imagenes = request.FILES.getlist('imagenes')
+        comentario = request.POST.get('comentario')  # Obtén el comentario del formulario
 
         for imagen in imagenes:
-            if imagen.name.endswith(('.jpg','png','jpeg','.gif','.jfif')):
-                img=Imagen()
-                img.imagen=imagen
+            if imagen.name.endswith(('.jpg', '.png', '.jpeg', '.gif', '.jfif')):
+                img = Imagen()
+                img.imagen = imagen
+                img.comentario = comentario  # Guarda el comentario con la imagen
                 img.save()
         return redirect('subir_imagenes')
-    imagenes=Imagen.objects.all()
-    return render(request, 'subir_imagenes.html',{'imagenes':imagenes})
+
+    imagenes = Imagen.objects.all()
+    return render(request, 'subir_imagenes.html', {'imagenes': imagenes})
+
 
 def editar_imagen(request, imagen_id):
     imagen = get_object_or_404(Imagen, id=imagen_id)
-    if request.method == 'POST' and request.FILES.get('nueva_imagen'):
-        # Actualizamos la imagen
-        imagen.imagen = request.FILES['nueva_imagen']
-        imagen.imagen = request.FILES['nueva_imagen']
+
+    if request.method == 'POST':
+        # Actualizar la imagen si se ha cargado una nueva
+        if request.FILES.get('nueva_imagen'):
+            imagen.imagen = request.FILES['nueva_imagen']
+
+        # Actualizar el comentario si se ha enviado uno
+        comentario = request.POST.get('comentario')
+        if comentario:
+            imagen.comentario = comentario
+
         imagen.save()
         return redirect('subir_imagenes')  # Redirige a la galería de imágenes
+
     return redirect('subir_imagenes')
+
 
 def eliminar_imagen(request, imagen_id):
     imagen = get_object_or_404(Imagen, id=imagen_id)
@@ -404,7 +419,9 @@ def eliminar_video(request, video_id):
         return redirect('subir_videos')
     return redirect('subir_videos')
 
-
+'''##################################################
+#                     CONTACTO                     #
+##################################################'''
 def contacto(request):
     if request.method == "POST":
         nombre = request.POST.get('nombre')
@@ -430,6 +447,66 @@ def contacto(request):
         return redirect('home')
 
     return render(request, 'correo.html')
+
+
+'''##################################################
+#                     CONTACTO                     #
+##################################################'''
+
+def listar_entrevistadores(request):
+    entrevistadores= Entrevistador.objects.all()
+    return render(request,'listar_entrevistadores.html',{'entrevistadores':entrevistadores})
+
+def generar_pdf(request, entrevistador_id):
+    entrevistador=Entrevistador.objects.get(id=entrevistador_id)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="entrevistadores{entrevistador.id}.pdf"'
+
+    p=canvas.Canvas(response, pagesize=letter)
+
+    p.setFont("Helvetica-Bold", 16)
+    p.setFillColor(colors.darkblue)
+    p.drawCentredString(300,770, "Reporte de entrevistador")
+
+    p.setFont("Helvetica-Bold", 16)
+    p.setFillColor(colors.burlywood)
+
+    p.drawString(100,720,f"ID:{entrevistador.id}")#concatena
+    p.drawString(100, 700, f"Empresa:{entrevistador.empresa or 'N/A'}")
+    p.drawString(100, 680, f"Fecha de Entrevista:{entrevistador.fecha_entrevista or 'N/A'}")
+    p.drawString(100, 660, f"Conectado:{entrevistador.conectado or 'N/A'}")
+    p.drawString(100, 640, f"Seleccionado:{entrevistador.seleccionado or 'N/A'}")
+    p.drawString(100, 620, f"Usuario:{entrevistador.user.username if entrevistador.user else 'N/A'}")
+
+    #la imagen, puede ser que no tenga imagen.
+    if entrevistador.avatar:
+        avatar_path=entrevistador.avatar.path
+        p.drawImage(avatar_path, 100, 500,width=100, height=100)
+
+    p.showPage()
+    p.save()
+
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

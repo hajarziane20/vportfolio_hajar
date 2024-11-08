@@ -18,6 +18,7 @@
 <form method="post" enctype="multipart/form-data" style="text-align: center; margin-bottom: 20px;">
     {% csrf_token %}
     <input type="file" name="imagenes" multiple required>
+    <textarea name="comentario" placeholder="Escribe un comentario..."></textarea>
     <button type="submit" class="btn-subirImg">Subir</button>
 </form>
 </div>
@@ -29,13 +30,14 @@
             <div>
                 <!-- Imagen pequeña en la galería -->
                 <img src="{{ imagen.imagen.url }}" alt="{{ imagen.imagen }}" onclick="mostrarImagen('{{ imagen.imagen.url }}')">
-                <p class="project-title">Your Project Title Here</p>
+                <p name="comentario" >{{ imagen.comentario }}</p>
 
                 <button class="btn-imagen-editar" type="button" onclick="mostrarInput('{{ imagen.id }}')">Editar</button>
 
                 <form method="post" action="{% url 'editar_imagen' imagen.id %}" enctype="multipart/form-data" id="form-editar-{{ imagen.id }}" style="display: none;">
                     {% csrf_token %}
-                    <input type="file" name="nueva_imagen" required>
+                    <input type="file" name="nueva_imagen" >
+                    <textarea name="comentario" >{{ imagen.comentario }}</textarea>
                     <button class="btn-imagen-editar" type="submit">Guardar</button>
                 </form>
 

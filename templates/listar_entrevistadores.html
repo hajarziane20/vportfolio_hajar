@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>portfolio</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+            integrity="sha512-K1qjQ+NcF27Y0/eI3M76v6BzINZAF5a9QgmfvVcVfgH+GTb3+HRLg1/EnZnu2bL+uT5qYqV3lLvdm9J16imS/pq=="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          integrity="sha512-dTfge/zgoMp7pDqhg4yMGbGsbsdZcXZ+7irtTjCc3sPUFt0KuFbDz/ixGTAxTxmJjLXDMzezHubeNikyKGVyQ=="
+          crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+
+    <br><br><br>
+
+    <center>
+        <font color="#686B6B" size="6" face="Comic Sans MS, Arial, Verdana">Lista de Entrevistadores</font>
+        <br>
+        <img src="{% static 'images/chica2.jpg' %}" height="190" width="190">
+    </center>
+
+    <h1>Seleccione un Entrevistador para Generar PDF</h1>
+    <ul>
+        {% for entrevistador in entrevistadores %}
+            <li>
+                <h3>{{ entrevistador.empresa }} - {{ entrevistador.user.username }}</h3>
+{#                              Recordar que el entrevistador forma parte de user por la foreign key#}
+                <a href="{% url 'generar_pdf' entrevistador.id %}">Generar PDF</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if not request.user.is_authenticated %}
+        <!-- Code to handle unauthenticated user -->
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        <!-- Code to handle authenticated user -->
+    {% endif %}
+
+{% endblock content %}

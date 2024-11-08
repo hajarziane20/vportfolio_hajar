@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+from tkinter.font import names
+
 from django.contrib import admin
 #las 3 formas según las versiones, usamos re_path que es el último
 from django.urls import path, include, re_path
@@ -48,6 +51,8 @@ urlpatterns = [
     path('video/editar/<int:video_id>/', views.editar_video, name='editar_video'),
     path('video/eliminar/<int:video_id>/', views.eliminar_video, name='eliminar_video'),
     path('contacto/', views.contacto, name='contacto'),
+    path('generar_pdf/<int:entrevistador_id>/',views.generar_pdf,name='generar_pdf'),
+    path('listar_entrevistadores/', views.listar_entrevistadores, name='listar_entrevistadores'),
 ]
 
 

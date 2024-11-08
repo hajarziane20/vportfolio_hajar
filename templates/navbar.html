@@ -70,7 +70,8 @@
 
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Inicio</a></li>
-                    <li><a href="{% url 'entrevistadores' %}">Entrevistadores</a></li>
+{#                    <li><a href="{% url 'entrevistadores' %}">Entrevistadores</a></li>#}
+                    <li><a href="{% url 'listar_entrevistadores' %}">Entrevistadores</a></li>
                     <li>
                         <a href="#" class="dropdown-toggle">Contenidos</a>
                         <div class="dropdown">
