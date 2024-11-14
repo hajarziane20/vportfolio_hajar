@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{# {% load staticfiles %} #}
+{% load static %}
+
+{% block head %}
+<title>Curriculum</title>
+{#     <link rel="stylesheet" href="{% static 'css/experiencias.css' %}">#}
+{% endblock %}
+
+ {% block content %}
+
+ <br><br><br><br>
+  <center>
+  <font color="black" size="5" >CURRICULUM</font>
+   <br>
+    <!--<img src="{% static 'images/chica1.jpg'%}" height='340' width='390'>-->
+      <!-- error,forma de llamar al html, python no puede llamar a html solo -->
+  </center>
+     <center>
+     <a  href="{% url 'crear_curriculum' %}" class='añadir'>Añadir Curriculum</a>
+</center>
+ {% if not request.user.is_authenticated %}
+
+ {% endif %}
+
+ {% if request.user.is_authenticated %}
+ {% endif %}
+<h3>CURRICULUM </h3>
+<font size="3">
+<table class="tabla">
+	<thead>
+        <tr>
+			<th class="encabezado">ID</th>
+			<th class="encabezado">Nombre</th>
+            <th class="encabezado">Apellido1</th>
+            <th class="encabezado">Apellido2</th>
+            <th class="encabezado">Email</th>
+            <th class="encabezado">Telefono</th>
+			
+        </tr>
+		</thead>
+		<tbody>
+        
+            <tr>
+				<td> {{ curriculum.id }} </td>
+                <td> {{ curriculum.nombre }} </td>
+                <td> {{curriculum.ap1 }} </td>
+                <td> {{ curriculum.ap2 }} </td>
+                <td> {{ curriculum.email }} </td>
+                <td> {{ curriculum.telefono }} </td>
+           
+            </tr>
+        
+		 </tbody>
+    </table>
+
+<h3>ESTUDIOS </h3>
+<table class="tabla">
+	<thead>
+        <tr>
+			<th class="encabezado">ID</th>
+			<th class="encabezado">Titulo</th>
+            <th class="encabezado">Fecha Inici</th>
+            <th class="encabezado">Fecha Fin</th>
+            <th class="encabezado">Ciudad</th>
+			
+        </tr>
+		</thead>
+		<tbody>
+        {% for r in estudios %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.fk_Detalle_Estudio.titulo }}</td>  <!-- fk_Detalle_Estudio es el ForeignKey a Estudio -->
+            <td>{{ r.fk_Detalle_Estudio.fechaInicio }}</td> <!-- Asegúrate de usar los nombres correctos de los campos -->
+            <td>{{ r.fk_Detalle_Estudio.fechaFin }}</td>
+            <td>{{ r.fk_Detalle_Estudio.ciudad }}</td>
+        </tr>
+        {% endfor %}
+
+		 </tbody>
+</table>
+
+<h3>EXPERIENCIAS </h3>
+<table class="tabla">
+	<thead>
+        <tr>
+			<th class="encabezado">ID</th>
+			<th class="encabezado">Empresa</th>
+            <th class="encabezado">Fecha Inicio</th>
+            <th class="encabezado">Fecha Fin</th>
+            <th class="encabezado">Categoria</th>
+			
+        </tr>
+		</thead>
+		<tbody>
+        {% for r in experiencias %}
+            <tr>
+				<td> {{ r.id }} </td>
+                <td> {{ r.fk_Detalle_Experiencia.empresa }} </td>
+                <td> {{ r.fk_Detalle_Experiencia.fecha_inicio }} </td>
+                <td> {{ r.fk_Detalle_Experiencia.fecha_fin }} </td>
+                <td> {{ r.fk_Detalle_Experiencia.categoria }} </td>
+            </tr>
+        {% endfor %}
+		 </tbody>
+    </table>
+</font>
+
+     <a href="{% url 'generar_curriculum' pkcur %}">Generar PDF</a>
+
+
+{% endblock content %}

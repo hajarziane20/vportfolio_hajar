@@ -53,6 +53,9 @@ urlpatterns = [
     path('contacto/', views.contacto, name='contacto'),
     path('generar_pdf/<int:entrevistador_id>/',views.generar_pdf,name='generar_pdf'),
     path('listar_entrevistadores/', views.listar_entrevistadores, name='listar_entrevistadores'),
+    path('crear_curriculum/', views.crear_curriculum, name='crear_curriculum'),
+    path('pintar_curriculum/<int:pkcur>/', views.pintar_curriculum, name='pintar_curriculum'),
+    path('generar_curriculum/<int:pkcur>/', views.generar_curriculum, name='generar_curriculum'),
 ]
 
 

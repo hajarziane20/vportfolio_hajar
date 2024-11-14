@@ -3,27 +3,28 @@
 {% block head %}
     <title>Iniciar Sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="{% static 'css/cssUsers.css' %}">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/UserAccess.css' %}">
 {% endblock %}
 
 {% block content %}
-    <br><br><br>
-    <div>
-        <p style="font-size: 24px;">INICIAR SESIÓN</p>
-        <hr>
-        <form method="post">
+   <br><br><br>
+    <center>
+    <div class="login-container">
+        <p class="login-title">INICIAR SESIÓN</p>
+        <hr class="login-divider">
+        <form method="post" class="login-form">
             {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
-            <button type="submit">Login</button>
-            <a href="{% url 'home' %}" class="">Cancelar</a>
+            <label for="username" class="login-label">Username:</label>
+            <input type="text" name="username" required class="login-input">
+            <label for="password" class="login-label">Password:</label>
+            <input type="password" name="password" required class="login-input">
+            <button type="submit" class="login-button">Login</button>
+            <a href="{% url 'home' %}" class="cancel-link">Cancelar</a>
             {% if error %}
                 <p class="error-message">{{ error }}</p>
             {% endif %}
         </form>
     </div>
+    </center>
 {% endblock content %}
 {% block scripts %}{% endblock scripts %}

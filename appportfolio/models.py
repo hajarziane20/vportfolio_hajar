@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 # TABLA 1 - Habilidades 
 ################################################
 
-
 class Habilidad(
     models.Model):  # MODELS.MODEL es como el extend, solo que aquí no se pone extende, es como el extend thread, para saber que es un modelo
     id = models.AutoField(primary_key=True)  # le indico la pk
@@ -87,9 +86,10 @@ class Estudio(models.Model):
         ordering = ['fechaInicio']
 
     def __str__(self):
-        return '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (
-        self.id, self.titulo, self.fechaInicio, self.fechaFin, self.notamedia, self.nombreLugar,
-        self.nombreLugar, self.ciudad, self.presencial, self.observaciones)
+        return '%s, %s, %s, %s, %s, %s, %s, %s, %s' % (
+            self.id, self.titulo, self.fechaInicio, self.fechaFin, self.notamedia, self.nombreLugar,
+            self.ciudad, self.presencial, self.observaciones
+        )
 
 
 ################################################
@@ -109,7 +109,7 @@ class Experiencia(models.Model):
         ordering = ['empresa']
 
     def __str__(self):
-        return '%s,%s,%s,%s,%s,%s' % (self.id,self.empresa.self.fecha_inicio,self.fecha_fin,self.observaciones,self.categoria)
+        return '%s,%s' % (self.id,self.empresa)
 
 ################################################
 # 6 - Imagen
@@ -138,6 +138,7 @@ class Video(models.Model):
         ordering = ['id']
     def __str__(self):
         return '%s,%s,%s' % (self.id,self.video,self.comentario)
+
 ################################################
 # 8 - Entrevistador
 ################################################
@@ -158,9 +159,58 @@ class Entrevistador(models.Model):
     def __str__(self):
         return "%s,%s" % (self.empresa, self.user)
 
+################################################
+# 9 - Curriculum
+################################################
+class Curriculum(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre=models.CharField('Nombre', max_length=30, null=True, blank=True)
+    ap1=models.CharField('Ap1', max_length=30, null=True, blank=True)
+    ap2 = models.CharField('Ap2', max_length=30, null=True, blank=True)
+    email=models.EmailField('Email', null=True, blank=True)
+    telefono=models.CharField('Teléfono', max_length=30, null=True, blank=True)
+    class Meta:
+        verbose_name = 'Curriculum'
+        verbose_name_plural = 'Curriculums'
+        ordering = ['id']
+    def __str__(self):
+        return '%s,%s' % (self.id, self.nombre)
+
+################################################
+# 10 - DetalleCurriculoEstudios
+################################################
+class DetalleCurriculumEstudio(models.Model):
+    id = models.AutoField(primary_key=True)
+    fk_Detalle_Estudio = models.ForeignKey(Estudio, related_name='detalle_estudios', null=True, blank=True, on_delete=models.PROTECT)
+    fk_Curriculum = models.ForeignKey(Curriculum, related_name='curriculum_estudios', null=True, blank=True, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = 'DetalleEstudio'
+        verbose_name_plural = 'DetalleEstudios'
+        ordering = ['id']
+
+    def __str__(self):
+        titulo = self.fk_Detalle_Estudio.titulo if self.fk_Detalle_Estudio else 'No asignado'
+        return '%s,%s' % (self.id, titulo)
 
 
+# Solo un marcador de posición
 
+
+#################################################
+# 11 - DetalleCurriculoExperiencias
+################################################
+class DetalleCurriculumExperiencia(models.Model):
+    id = models.AutoField(primary_key=True)
+    fk_Detalle_Experiencia = models.ForeignKey(Experiencia, related_name='detalle_experiencias', null=True, blank=True, on_delete=models.PROTECT)
+    fk_Curriculum = models.ForeignKey(Curriculum, related_name='curriculum_experiencias', null=True, blank=True,on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = 'DetalleExperiencia'
+        verbose_name_plural = 'DetalleExperiencias'
+        ordering = ['id']
+    def __str__(self):
+        return '%s' % (self.id)
 
 
 

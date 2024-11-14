@@ -66,8 +66,20 @@ class EntrevistadorAdmin(admin.ModelAdmin):
     list_filter   = ('id','empresa')
 admin.site.register(Entrevistador, EntrevistadorAdmin)#el modelo se llama Entrevistador y ha sido registrado por entreAdmin
 
+class CurriculumAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Curriculum._meta.get_fields() if hasattr(field, 'verbose_name')] #es una lista, siempre con []
+    #field.name: ese field es el nombre inventado. puedo poner campo.name
+    #Se hace un array para que coja todos los campos en vez de ponerlos manualmente.
+    #meta.get_fields: leer todos los campos que encuentra.
+    #if hasattr (has attribute)
+    #verbose_name: label o etiqueta, si no lo pongo va a explotar si encuentra las etiquetas verbose_name bien puestas.
+    search_fields = ('id','nombre')
+    list_filter   = ('id','nombre')
+admin.site.register(Curriculum, CurriculumAdmin)#el modelo se llama Entrevistador y ha sido registrado por entreAdmin
 
 
+admin.site.register(DetalleCurriculumEstudio)
+admin.site.register(DetalleCurriculumExperiencia)
 
 
 

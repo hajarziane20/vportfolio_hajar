@@ -1,36 +1,37 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from lib2to3.fixes.fix_input import context
-from tempfile import template
-
+# Importaciones de Django
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.core.mail import EmailMessage
-from django.shortcuts import render,redirect,get_object_or_404
-from contextlib import redirect_stderr
-from django.http import HttpResponse 
-from appportfolio.models import * #importamos los modelos.
 from django.contrib import messages
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger	#paginacion
-#fichero cuyos print aparecen en consola, es el archivo controlador
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # Paginación
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
-from django.contrib.auth.models import User #contrib=permisos,usuarios,roles... de todos los nmodelos importamos User
 from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
 from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.csrf import csrf_exempt
-import urllib #para saber las ip's conectadas
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.conf import settings
+
+# Importaciones adicionales
+from appportfolio.models import *  # Importación de modelos
+from contextlib import redirect_stderr
+import os  # Para el sistema de archivos
+import urllib  # Para obtener IPs conectadas
+from tempfile import template  # Plantillas temporales
+from lib2to3.fixes.fix_input import context  # Contexto para plantillas
+
+# Importaciones de ReportLab
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
 
-'''
-def home(request): 
-    cadena='<center><b>Inicio!</b></center>'
-    return HttpResponse(cadena)
-'''
+'''##################################################
+#                     INICIO                       #
+##################################################'''
 def home(request):
     print("hola estoy en Home ")
     nombreProyecto='PORTfolio'
@@ -77,15 +78,30 @@ def home(request):
 
     context= {'nombreProyecto':nombreProyecto, 'fechaCreacion':fechaCreacion} #creamos un contexto de compartición. Le enviamos la pareja 'variable valor' formato json. En python esa estructura se llama diccionario.
     return render(request, 'home.html', context=context) #hago una petición, página a la que hago request y las variables en el contexto que envio a esa pag
+def sobremi(request):
+    print("hola estoy en Sobre Mi")
+    nombre='Hajar'
+    edad=20
+    telefono='633456782'
+    cargo='Admin'
+    ListaCategorias=Categoria.objects.all().order_by('-id') #selet * from Categoria
+    for r in ListaCategorias:
+        print(str(r.nombre_categoria))
 
+    context= {'nombre':nombre, 'edad':edad, 'telefono':telefono, 'cargo':cargo
+              , 'ListaCategorias':ListaCategorias}
+    return render(request, 'sobremi.html', context=context)
+
+'''##################################################
+#                USUARIO-SESIÓN                    #
+##################################################'''
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)#no me registro si no que entro me logueo, me busca en la tabla
         if user is not None: #if not null = existe
-            login(request, user)
-
+            login(request,user)
             actual=request.user #coge el usuario actual
             idusuario=0  #incializar a 0
             idusuario=actual.id #sobre el actual cogemos su id. (de user no de netrevistador)
@@ -126,21 +142,6 @@ def cerrar(request):
     # desconectamos al usuario
     logout(request)
     return redirect('/')
-
-
-def sobremi(request):
-    print("hola estoy en Sobre Mi")
-    nombre='Hajar'
-    edad=20
-    telefono='633456782'
-    cargo='Admin'
-    ListaCategorias=Categoria.objects.all().order_by('-id') #selet * from Categoria
-    for r in ListaCategorias:
-        print(str(r.nombre_categoria))
-
-    context= {'nombre':nombre, 'edad':edad, 'telefono':telefono, 'cargo':cargo
-              , 'ListaCategorias':ListaCategorias}
-    return render(request, 'sobremi.html', context=context)
 
 '''##################################################
 #                   HABILIDAD                       #
@@ -336,50 +337,34 @@ def editar_experiencia(request, experiencia_id):
 
     return render(request, 'editar_experiencia.html', {'experiencia': experiencia})
 
-def entrevistadores(request):
-   titulo="Gestión de entrevistas"
-   context={'titulo':titulo}
-   return render(request, 'entrevistadores.html',context=context)
+
 '''##################################################
 #                     MULTIMEDIA                     #
 ##################################################'''
 
-
 def subir_imagenes(request):
+    #idUsuario=request.session['idusuario']
     if request.method == 'POST':
-        imagenes = request.FILES.getlist('imagenes')
-        comentario = request.POST.get('comentario')  # Obtén el comentario del formulario
+        imagenes=request.FILES.getlist('imagenes')
 
         for imagen in imagenes:
-            if imagen.name.endswith(('.jpg', '.png', '.jpeg', '.gif', '.jfif')):
-                img = Imagen()
-                img.imagen = imagen
-                img.comentario = comentario  # Guarda el comentario con la imagen
+            if imagen.name.endswith(('.jpg','png','jpeg','.gif','.jfif')):
+                img=Imagen()
+                img.imagen=imagen
                 img.save()
         return redirect('subir_imagenes')
-
-    imagenes = Imagen.objects.all()
-    return render(request, 'subir_imagenes.html', {'imagenes': imagenes})
-
+    imagenes=Imagen.objects.all()
+    return render(request, 'subir_imagenes.html',{'imagenes':imagenes})
 
 def editar_imagen(request, imagen_id):
     imagen = get_object_or_404(Imagen, id=imagen_id)
-
-    if request.method == 'POST':
-        # Actualizar la imagen si se ha cargado una nueva
-        if request.FILES.get('nueva_imagen'):
-            imagen.imagen = request.FILES['nueva_imagen']
-
-        # Actualizar el comentario si se ha enviado uno
-        comentario = request.POST.get('comentario')
-        if comentario:
-            imagen.comentario = comentario
-
+    if request.method == 'POST' and request.FILES.get('nueva_imagen'):
+        # Actualizamos la imagen
+        imagen.imagen = request.FILES['nueva_imagen']
+        imagen.imagen = request.FILES['nueva_imagen']
         imagen.save()
         return redirect('subir_imagenes')  # Redirige a la galería de imágenes
-
     return redirect('subir_imagenes')
-
 
 def eliminar_imagen(request, imagen_id):
     imagen = get_object_or_404(Imagen, id=imagen_id)
@@ -420,7 +405,7 @@ def eliminar_video(request, video_id):
     return redirect('subir_videos')
 
 '''##################################################
-#                     CONTACTO                     #
+#                     CONTACTO(email)                #
 ##################################################'''
 def contacto(request):
     if request.method == "POST":
@@ -432,12 +417,19 @@ def contacto(request):
         context = {'nombre': nombre, 'email': user_email, 'asunto': asunto, 'mensaje': mensaje}
         template = render_to_string('email_template.html', context=context)
 
-        # Crear el objeto EmailMessage
-        email_message = EmailMessage(
+        # Yo soy el emisor y el email indicado el receptor.
+        '''email_message = EmailMessage(
             asunto,
             template,
             settings.EMAIL_HOST_USER,
-            ['hajarziane24@gmail.com']
+            ['zianef45@gmail.com']
+        )'''
+        # Yo soy el receptor y el usuario el emisor
+        email_message = EmailMessage(
+            asunto,
+            template,
+            user_email,
+            ['hajar.ziane.5@gmail.com']
         )
 
         email_message.fail_silently = False  # Que no marque error en Gmail
@@ -448,10 +440,13 @@ def contacto(request):
 
     return render(request, 'correo.html')
 
-
 '''##################################################
-#                     CONTACTO                     #
+#             PDF/ENTREVISTADOR                      #
 ##################################################'''
+def entrevistadores(request):
+   titulo="Gestión de entrevistas"
+   context={'titulo':titulo}
+   return render(request, 'entrevistadores.html',context=context)
 
 def listar_entrevistadores(request):
     entrevistadores= Entrevistador.objects.all()
@@ -491,16 +486,106 @@ def generar_pdf(request, entrevistador_id):
 
 
 
+def crear_curriculum(request):
+    persona=Personal.objects.get(id=1)
+    if request.method == 'POST':
+        id=persona.id;
+        nombre=persona.nombre;
+        ap1=persona.apellido1;
+        ap2=persona.apellido2;
+
+        email = request.POST.get('email')
+        telefono = request.POST.get('telefono')
+
+        curriculum = Curriculum();
+        curriculum.id = id
+        curriculum.nombre=nombre
+        curriculum.ap1=ap1
+        curriculum.ap2=ap2
+        curriculum.email=email
+        curriculum.telefono=telefono
+        curriculum.save()
+        return redirect('pintar_curriculum', pk=curriculum.pk)
+
+    return render(request, 'crear_curriculum.html')
+
+
+def pintar_curriculum(request, pkcur):
+    curriculum = get_object_or_404(Curriculum, id=pkcur)
+    estudios = DetalleCurriculumEstudio.objects.filter(fk_Curriculum=curriculum)
+    experiencias = DetalleCurriculumExperiencia.objects.filter(fk_Curriculum=curriculum)
+
+    context = {'curriculum': curriculum, 'estudios': estudios, 'experiencias': experiencias, 'pkcur': pkcur}
+    return render(request, 'curriculum.html', context=context)
 
 
 
 
+def generar_curriculum(request, pkcur):
+    curriculum = get_object_or_404(Curriculum, id=pkcur)
+    estudios = DetalleCurriculumEstudio.objects.filter(fk_Curriculum=curriculum)
+    experiencias = DetalleCurriculumExperiencia.objects.filter(fk_Curriculum=curriculum)
 
+    # Crear la respuesta HttpResponse con tipo de contenido PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="curriculum_{curriculum.nombre}_{curriculum.ap1}.pdf"'
 
+    # Crear un objeto canvas de ReportLab para generar el PDF
+    c = canvas.Canvas(response, pagesize=letter)
+    width, height = letter  # Tamaño de la página
 
+    # Cargar imagen de avatar
+    try:
+        # avatar_path = "C:/vportfolio/portfolio/media/media/media/moneda3.jpg"
+        avatar_path = os.path.join(settings.MEDIA_ROOT, "media/HJ.jpg")
+        avatar = ImageReader(avatar_path)
+        c.drawImage(avatar, width - 150, height - 150, width=100, height=100)
+    except Exception as e:
+        print(f"No se pudo cargar la imagen: {e}")
+        pass  # Si no se encuentra la imagen, el PDF se generará sin ella
 
+    # Título del currículum en color
+    c.setFont("Helvetica-Bold", 20)
+    c.setFillColor(colors.HexColor("#4B8B9E"))  # Cambia a cualquier color hex que prefieras
+    c.drawString(100, height - 100, f"Curriculum de {curriculum.nombre} {curriculum.ap1}")
 
+    # Información de contacto en color diferente
+    c.setFont("Helvetica", 12)
+    c.setFillColor(colors.HexColor("#306998"))  # Otro color para variar
+    c.drawString(100, height - 130, f"Email: {curriculum.email}")
+    c.drawString(100, height - 150, f"Teléfono: {curriculum.telefono}")
 
+    # Sección de estudios en otro color
+    y_position = height - 200
+    c.setFont("Helvetica-Bold", 14)
+    c.setFillColor(colors.HexColor("#FDD43B"))
+    c.drawString(100, y_position, "Estudios:")
+
+    # Mostrar cada estudio con detalles
+    y_position -= 20
+    for estudio in estudios:
+        c.setFillColor(colors.black)
+        c.drawString(100, y_position, f"{estudio.fk_Detalle_Estudio.titulo} en {estudio.fk_Detalle_Estudio.ciudad} ({estudio.fk_Detalle_Estudio.fechaInicio} - {estudio.fk_Detalle_Estudio.fechaFin})")
+        y_position -= 20
+
+    # Sección de experiencia laboral
+    y_position -= 40
+    c.setFont("Helvetica-Bold", 14)
+    c.setFillColor(colors.HexColor("#306998"))
+    c.drawString(100, y_position, "Experiencia laboral:")
+
+    y_position -= 20
+    c.setFont("Helvetica", 12)
+    for experiencia in experiencias:
+        c.setFillColor(colors.black)
+        c.drawString(100, y_position, f"{experiencia.fk_Detalle_Experiencia.categoria} en {experiencia.fk_Detalle_Experiencia.empresa} ({experiencia.fk_Detalle_Experiencia.fecha_inicio} - {experiencia.fk_Detalle_Experiencia.fecha_fin})")
+        y_position -= 20
+
+    # Finalizar el PDF
+    c.showPage()  # Si tienes más páginas
+    c.save()
+
+    return response
 
 
 

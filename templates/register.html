@@ -4,21 +4,23 @@
 {% block head %}
     <title>Registrar Usuario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="{% static 'css/cssUsers.css' %}">
+     <link rel="stylesheet" href="{% static 'css/UserAccess.css' %}">
 {% endblock %}
 
 {% block content %}
     <br><br><br>
-    <div>
-        <p style="font-size: 24px;">REGISTRAR USUARIO</p>
-        <hr>
+    <div class="register-container">
+        <p class="register-title">REGISTRARSE</p>
+        <hr class="register-divider">
         <form method="post">
             {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
-            <button type="submit">Registrar</button>
+            <label for="username" class="register-label">Username:</label>
+            <input type="text" name="username" class="register-input" required>
+
+            <label for="password" class="register-label">Password:</label>
+            <input type="password" name="password" class="register-input" required>
+
+            <button type="submit" class="register-button">Registrar</button>
         </form>
     </div>
-{% endblock content %}
+{% endblock %}

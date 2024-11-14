@@ -2,28 +2,46 @@
 {% load static %}
 
 {% block head %}
-<title>Vportfolio</title>
+    <title>Vportfolio</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/contacto.css' %}">
 {% endblock %}
 
 {% block content %}
+<div class="center">
+    <h1 class="form-title">ENVIAR EMAIL</h1>
+    <form method="POST" action="{% url 'contacto' %}" class="contact-form">
+        {% csrf_token %}
 
-<br><br><br>
+        <div class="form-group">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" class="form-input" placeholder="Nombre">
+        </div>
 
+        <div class="form-group">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" name="email" id="email" class="form-input" placeholder="Email">
+        </div>
 
-<center><h1>ENVIAR EMAIL</h1>
-<form method="POST" action="{% url 'contacto' %}">
-    {% csrf_token %}
-    <input type="text" name="nombre" placeholder="nombre"><br>
-    <input type="text" name="email" placeholder="email"><br>
-    <input type="text" name="asunto" placeholder="asunto"><br>
-    <input type="text" name="mensaje" placeholder="mensaje"><br>
-    <button type="submit">Enviar</button>
-</form>
-</center>
+        <div class="form-group">
+            <label for="asunto" class="form-label">Asunto:</label>
+            <input type="text" name="asunto" id="asunto" class="form-input" placeholder="Asunto">
+        </div>
+
+        <div class="form-group">
+            <label for="mensaje" class="form-label">Mensaje:</label>
+            <textarea name="mensaje" id="mensaje" class="form-input" placeholder="..."></textarea>
+
+        </div>
+        <center>
+        <button type="submit" class="submit-btn">Enviar</button>
+        </center>
+    </form>
+</div>
+
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-success" role="alert">
-            {{message}}
+            {{ message }}
         </div>
     {% endfor %}
 {% endif %}

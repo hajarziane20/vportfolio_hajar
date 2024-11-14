@@ -1,3 +1,4 @@
+
 {# error: poner base.html aquí #}
 {% load static %}
 {% block head %}
@@ -70,33 +71,94 @@
 
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Inicio</a></li>
-{#                    <li><a href="{% url 'entrevistadores' %}">Entrevistadores</a></li>#}
-                    <li><a href="{% url 'listar_entrevistadores' %}">Entrevistadores</a></li>
                     <li>
-                        <a href="#" class="dropdown-toggle">Contenidos</a>
+                        <a href="#" class="dropdown-toggle">About Me</a>
                         <div class="dropdown">
-                            <a href="{% url 'estudios' %}">Estudios</a>
-                            <a href="{% url 'experiencias' %}">Experiencias</a>
-                            <a href="{% url 'subir_imagenes' %}">Imágenes</a>
-                            <a href="{% url 'subir_videos' %}">Multimedia</a>                            
+                            <a href="{% url 'habilidades' %}">Habilidades</a>
+                            <a href="{% url 'categorias' %}">Categorías</a>
+                            <a href="{% url 'home' %}">Metas</a>
+                            <a href="{% url 'home' %}">Blog</a>
+                        </div>
+
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle">Pathway</a>
+                        <div class="dropdown">
+                            <a href="{% url 'habilidades' %}">Estudios</a>
+                            <a href="{% url 'categorias' %}">Experiencias</a>
+                            <a href="{% url 'subir_imagenes' %}">Galeria</a>
+                            <a href="{% url 'subir_videos' %}">Multimedia</a>
                         </div>
                     </li>
-                    <li><a href="{% url 'contacto' %}">Enviar email</a></li>
-                    <li><a href="{% url 'home' %}">Notificaciones</a></li>
+                    <li><a href="{% url 'listar_entrevistadores' %}">Entrevistadores</a></li>
+                   
+                        <li><a href="{% url 'pintar_curriculum' pkcur %}">Curriculum</a></li>
+
+                    <!--<a href="{% url 'contacto' %}">Enviar email</a></li>-->
                 {% endif %}
             </ul>
 
             <ul class="lista-navbar lista-navbar-derecha">
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'cerrar' %}">Cerrar Sesión</a></li>
-                    <li><a href="{% url 'register' %}" class="btn-personalizado">Registrar</a></li>
+                    <button class="Btn"onclick="window.location.href='{% url 'cerrar' %}'">
+                      <div class="sign">
+                          <svg viewBox="0 0 512 512">
+                            <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                          </svg>
+                      </div>
+                      <div class="text">Logout</div>
+                    </button>
                 {% endif %}
 
                 {% if not request.user.is_authenticated and not "/accounts/login" in request.get_full_path %}
-                    <li><a href='{% url "login" %}' class="btn-personalizado">Entrar</a></li>
+                <button class="loginButton" onclick="window.location.href='{% url 'login' %}'"> Log In
+                      <div class="iconButton">
+                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 0h24v24H0z" fill="none"></path>
+                          <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                        </svg>
+                      </div>
+                </button>
+                <button class="registerButton" onclick="window.location.href='{% url 'register' %}'"> Sign Up
+                      <div class="iconButton">
+                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 0h24v24H0z" fill="none"></path>
+                          <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                        </svg>
+                      </div>
+                </button>
+
+
+
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

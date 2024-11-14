@@ -1,3 +1,10 @@
+/* Restablecer márgenes y rellenos por defecto */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Estilo general del navbar */
 .navbar-personalizada {
     background-color: #771011; /* Color de fondo del navbar */
@@ -5,13 +12,14 @@
     position: relative; /* Para la posición de los elementos internos */
     margin-top: 30px; /* Ajustar el margen para subir el navbar */
     border-radius: 30px;
+    margin-bottom: 0;
 }
 
 /* Contenedor del navbar */
 .contenedor-navbar {
-    max-width: 1600px; /* Ancho máximo */
+    max-width: 1000px; /* Ancho máximo */
     margin: 0 auto; /* Centrar el contenedor */
-    padding: 30px; /* Espaciado interno */
+    padding: 15px; /* Espaciado interno */
 }
 
 /* Encabezado del navbar */
@@ -30,6 +38,7 @@
 
 /* Estilo para los enlaces de la lista */
 .lista-navbar {
+    display: flex;
     list-style-type: none; /* Quitar viñetas */
     margin: 0; /* Sin margen */
     padding: 1px; /* Sin padding */
@@ -37,7 +46,8 @@
 }
 
 .lista-navbar li {
-    margin: 0 15px; /* Margen entre elementos */
+    margin-right: 15px; /* Espaciado entre elementos */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
 }
 
 .lista-navbar a {
@@ -54,7 +64,7 @@
     background-color: #000000 !important; /* Fondo negro */
     color: white; /* Texto blanco */
     padding: 10px 25px !important; /* Espaciado interno */
-    border-radius: 30px; /* Bordes redondeados */
+    border-radius: 5px; /* Bordes redondeados */
     text-decoration: none; /* Sin subrayado */
     transition: background-color 0.3s, box-shadow 0.3s; /* Transición suave para el fondo y la sombra */
 }
@@ -80,9 +90,9 @@ input[type="password"] {
 }
 
 /* Espaciado después del navbar */
-br {
-    margin-bottom: 20px; /* Espaciado adicional después del navbar */
-}
+/*br {
+    margin-bottom: 20px; /* Espaciado adicional después del navbar
+}*/
 
 /* Efecto hover para los enlaces con difuminado y escalado */
 .lista-navbar a.active {
@@ -98,6 +108,221 @@ br {
     color: #000000; /* Color al pasar el ratón */
     text-shadow: 0 0 8px rgb(232, 226, 226); /* Difuminado más intenso al pasar el ratón */
     transform: scale(1.05); /* Aumentar ligeramente el tamaño al pasar el ratón */
-    background-color: rgb(224, 219, 216) !important; /* Fondo semi-transparente */
+    background-color: #d6cfcf !important; /* Fondo semi-transparente */
     border-radius: 4px; /* Bordes redondeados en el fondo */
+}
+.navbar-personalizada {
+            /*background-color: #f8f9fa;*/
+    padding: 10px;
+}
+.lista-navbar {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.lista-navbar li {
+    position: relative;
+    margin-right: 10px; /* Espaciado entre elementos */
+}
+.lista-navbar a {
+    text-decoration: none;
+    color: #d6cfcf;
+    padding: 10px;
+}
+.lista-navbar a:hover {
+    color: black;
+}
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff !important; /* Fondo claro */
+    border-radius: 1px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    overflow: hidden; /* Para redondear las esquinas correctamente */
+    transition: all 0.3s ease; /* Transición suave */
+}
+.dropdown a {
+    display: block;
+    padding: 10px 15px;
+    color: #333; /* Color del texto */
+    text-decoration: none;
+    background-color: #D1D1D1;
+}
+.dropdown a:hover {
+    background-color: #f2f2f2; /* Fondo al pasar el mouse */
+    color: #771011; /* Color del texto al pasar el mouse */
+}
+.lista-navbar li:hover .dropdown {
+    display: block; /* Muestra el menú al pasar el ratón */
+}
+.dropdown-toggle {
+    cursor: pointer;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.dropdown-toggle:hover {
+    color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+/*BOTON LOG IN*/
+.loginButton {
+  background: #000000;
+  color: white;
+  font-family: inherit;
+  padding: 0.45em;
+  padding-left: 1em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  /*box-shadow: inset 0 0 1.6em -0.6em #e0dee3;*/
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3em;
+    margin-left: 5px;
+}
+
+.iconButton {
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.loginButton:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em #D1D1D1;
+  font-weight: bold;
+}
+
+.loginButton:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em #e7e8ea;
+}
+
+/*BOTON SIGN UP*/
+.registerButton {
+  background: #d1d1d1;
+  color: #000000;
+  font-family: inherit;
+  padding: 0.45em;
+  padding-left: 1em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  /*box-shadow: inset 0 0 1.6em -0.6em #e0dee3;*/
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3em;
+    margin-left: 5px;
+}
+
+.registerButton:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em #000000;
+  font-weight: bold;
+}
+
+.registerButton:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em #000000;
+}
+
+/*BOTON LOGOUT*/
+/* From Uiverse.io by kennyotsu-monochromia */
+.Btn {
+  --black: #000000;
+  --ch-black: #141414;
+  --eer-black: #1b1b1b;
+  --night-rider: #2e2e2e;
+  --white: #ffffff;
+  --af-white: #f3f3f3;
+  --ch-white: #e1e1e1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: var(--af-white);
+}
+
+/* plus sign */
+.sign {
+  width: 100%;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: var(--night-rider);
+}
+/* text */
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: var(--night-rider);
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: .3s;
+}
+/* hover effect on button width */
+.Btn:hover {
+  width: 125px;
+  border-radius: 5px;
+  transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: .3s;
+  padding-left: 20px;
+}
+/* hover effect button's text */
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: .3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btn:active {
+  transform: translate(2px ,2px);
 }

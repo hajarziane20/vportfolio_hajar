@@ -1,0 +1,188 @@
+body {
+    margin: 0; /* Elimina márgenes por defecto */
+    padding: 0; /* Elimina padding por defecto */
+    height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    background-image: url('/static/images/b2.jpg');
+    background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+
+/*LOGIN-----------------------------------------------------------------------------------------------------------*/
+
+/* Contenedor del formulario */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Blanco con 80% de opacidad */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0px auto;
+}
+.register-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0px auto; /* Centrado vertical y horizontal */
+}
+
+/* Título */
+.login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Línea divisora */
+.login-divider {
+    margin: 10px 0 20px;
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+}
+
+/* Etiquetas */
+.login-label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Campos de entrada */
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Botón de inicio de sesión */
+.login-button {
+    width: 100%;
+    background-color: #771011;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-button:hover {
+    background-color: #c7c9cd;
+}
+
+/* Enlace de cancelar */
+.cancel-link {
+    display: block;
+    margin-top: 10px;
+    color: #771011;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.cancel-link:hover {
+    text-decoration: underline;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/*REGISTER-----------------------------------------------------------------------------------------------------------*/
+/* Estilo general para la página de registro */
+.register-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0px auto; /* Centrado vertical y horizontal */
+}
+
+/* Título de registro */
+.register-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Línea divisora */
+.register-divider {
+    margin: 10px 0 20px;
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+}
+
+/* Etiquetas de los campos */
+.register-label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Campos de entrada */
+.register-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Botón de registro */
+.register-button {
+    width: 100%;
+    background-color: #771011; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.register-button:hover {
+    background-color: #c7c9cd; /* Color de fondo al pasar el ratón */
+}
+
+/* Enlace de cancelar o volver */
+.cancel-link {
+    display: block;
+    margin-top: 10px;
+    color: #771011;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.cancel-link:hover {
+    text-decoration: underline;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
