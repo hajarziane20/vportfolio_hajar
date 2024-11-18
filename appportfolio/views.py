@@ -588,6 +588,61 @@ def generar_curriculum(request, pkcur):
     return response
 
 
+def lista_noticias(request):
+    noticias=Noticia.objects.all().order_by('-fecha_creacion')
+    return render(request,'lista_noticias.html',{'noticias':noticias})
+
+def crear_noticia(request):
+    if request.method == "POST":
+        titulo = request.POST.get('titulo')
+        contenido = request.POST.get('contenido')
+        imagen = request.FILES.get('imagen')
+
+        if titulo and contenido:
+            noticia=Noticia.objects.create(titulo=titulo, contenido=contenido, imagen=imagen)
+            return redirect(lista_noticias)
+        else:
+            return HttpResponse("Error: El titulo y el contenido son obligatorios", status=400)
+    return  render(request,'crear_noticia.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

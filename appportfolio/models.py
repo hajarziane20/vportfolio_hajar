@@ -215,7 +215,15 @@ class DetalleCurriculumExperiencia(models.Model):
 
 
 
+class Noticia(models.Model):
+    id = models.AutoField(primary_key=True)
+    titulo=models.CharField('Titulo', max_length=200, null=True, blank=True)
+    contenido=models.TextField('Contenido', null=True, blank=True)
+    fecha_creacion=models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    imagen=models.ImageField('Imagen',  null=True, blank=True, upload_to='media/')
 
+    def __str__(self):
+        return '%s,%s' % (self.id, self.titulo)
 
 
 

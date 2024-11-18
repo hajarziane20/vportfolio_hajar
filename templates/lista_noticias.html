@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Blog</title>
+    <style>
+    /* Desde Uiverse.io por Yaya12085 */
+    .card {
+        padding: 20px;
+        max-width: 400px; /* Aumenta el tamaño máximo de la tarjeta */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        background-color: rgb(255, 255, 255);
+        font-family: sans-serif;
+        margin-bottom: 30px; /* Aumenta el margen inferior */
+        border-radius: 8px; /* Bordes más redondeados */
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05); /* Agrega un efecto de zoom al pasar el ratón */
+    }
+
+    .content {
+        margin-top: 1rem;
+    }
+
+    .content .header {
+        margin-top: 0.5rem;
+    }
+
+    .image {
+        width: 100%;
+        height: 250px; /* Aumenta la altura de la imagen */
+        border-radius: 4px;
+        padding: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Mantiene la proporción de la imagen */
+        border-radius: 4px;
+    }
+
+    .image.no-img {
+        background-color: rgb(205, 235, 255); /* Fondo azul solo si no hay imagen */
+        justify-content: center;
+        display: flex;
+    }
+
+    .tag {
+        text-transform: capitalize;
+        background-color: rgba(0, 0, 0, 0.425);
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: #fff;
+    }
+
+    .date {
+        display: flex;
+        font-size: 0.9rem; /* Aumenta el tamaño de la fecha */
+        line-height: 1rem;
+        align-items: center;
+        margin: 2px;
+        color: #777;
+    }
+
+    .title {
+        display: block;
+        font-size: 1.5rem; /* Aumenta el tamaño del título */
+        line-height: 1.35rem;
+        font-weight: 600;
+        padding-bottom: 10px;
+        padding-top: 14px;
+        color: #333;
+    }
+
+    .description {
+        line-height: 1.5;
+        font-size: 1rem; /* Aumenta el tamaño de la descripción */
+        color: #555;
+    }
+
+    /* Contenedor para mostrar las noticias en formato de galería */
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .gallery .card {
+        margin: 15px; /* Espaciado más grande entre las tarjetas */
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="gallery">
+        {% for noticia in noticias %}
+            <div class="card">
+                <div class="header">
+                    <div class="image {% if not noticia.imagen %}no-img{% endif %}">
+                        {% if noticia.imagen %}
+                            <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}">
+                        {% else %}
+                            <span class="tag">Sin Imagen</span>
+                        {% endif %}
+                    </div>
+                    <div class="date">
+                        <span>{{ noticia.fecha_creacion|date:"d/m/Y-H:i" }}</span>
+                    </div>
+                </div>
+                <div class="info">
+                    <a rel="noopener noreferrer" href="#" class="block">
+                        <span class="title">{{ noticia.titulo }}</span>
+                    </a>
+                    <p class="description">{{ noticia.contenido|slice:":150" }}...</p>  <!-- Muestra los primeros 150 caracteres -->
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

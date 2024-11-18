@@ -92,7 +92,9 @@
                     </li>
                     <li><a href="{% url 'listar_entrevistadores' %}">Entrevistadores</a></li>
                    
-                        <li><a href="{% url 'pintar_curriculum' pkcur %}">Curriculum</a></li>
+                    <li><a href="{% url 'pintar_curriculum' pkcur=1 %}">Curriculum</a></li>
+                    <li><a href="{% url 'crear_noticia' %}">Crear Noticia</a></li>
+                    <li><a href="{% url 'lista_noticias' %}">Noticias</a></li>
 
                     <!--<a href="{% url 'contacto' %}">Enviar email</a></li>-->
                 {% endif %}

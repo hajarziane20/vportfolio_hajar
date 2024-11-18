@@ -81,6 +81,15 @@ admin.site.register(Curriculum, CurriculumAdmin)#el modelo se llama Entrevistado
 admin.site.register(DetalleCurriculumEstudio)
 admin.site.register(DetalleCurriculumExperiencia)
 
+class NoticiaAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Noticia._meta.get_fields() if hasattr(field,'verbose_name')]
+    search_fields = ('id','titulo')
+admin.site.register(Noticia, NoticiaAdmin)
+
+
+
+
+
 
 
 

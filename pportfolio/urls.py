@@ -56,6 +56,9 @@ urlpatterns = [
     path('crear_curriculum/', views.crear_curriculum, name='crear_curriculum'),
     path('pintar_curriculum/<int:pkcur>/', views.pintar_curriculum, name='pintar_curriculum'),
     path('generar_curriculum/<int:pkcur>/', views.generar_curriculum, name='generar_curriculum'),
+    path('lista_noticias', views.lista_noticias, name='lista_noticias'),
+    path('crear_noticia', views.crear_noticia, name='crear_noticia'),
+
 ]
 
 
@@ -69,3 +72,26 @@ urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns+=[
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),#primer media, y a partir de ahi reconece todas las subcarpetas.
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
