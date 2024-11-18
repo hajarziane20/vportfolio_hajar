@@ -13,13 +13,13 @@ from uuid import uuid4  # Para generar un nombre único para la imagen.
 class NoticiaModelTest(TestCase):
     #Nombre de clase a testear + ModelTest, modelo de prueba.
 
-    # def tearDown(self):#méto-do para borrar
-    #     #El def aquí es un méto-do xq va dentro de una clase.
-    #     # Méto-do especial de Django para eliminar archivos después de las pruebas.
-    #     for noticia in Noticia.objects.all():
-    #         if noticia.imagen and noticia.imagen.path:#si existe la imagen y el camino:
-    #             os.remove(noticia.imagen.path)#quita el pathc
-    #     super().tearDown()#recolector basura
+    def tearDown(self):#méto-do para borrar
+        #El def aquí es un méto-do xq va dentro de una clase.
+        # Méto-do especial de Django para eliminar archivos después de las pruebas.
+        for noticia in Noticia.objects.all():
+            if noticia.imagen and noticia.imagen.path:#si existe la imagen y el camino:
+                os.remove(noticia.imagen.path)#quita el pathc
+        super().tearDown()#recolector basura
 
     #caja blanca.
     def test_creacion_noticia_sin_imagen(self):
@@ -35,8 +35,8 @@ class NoticiaModelTest(TestCase):
 
     def test_creacion_noticia_con_imagen(self):
         # Prueba que una noticia se puede crear con una imagen cargada.
-        #unique_filename = f'test_image_{uuid4().hex}.jpg'#concatena para q no choquen los nombre.
-        unique_filename="prueba.jpg"
+        unique_filename = f'test_image_{uuid4().hex}.jpg'#concatena para q no choquen los nombre.
+        #unique_filename="prueba.jpg"
         image_data = SimpleUploadedFile(
             name=unique_filename,
             content=b'algun contenido de la imagen',#b : convierte a binario lo qye viene a la derecha.equivale al contenido de imagen.para que no esté vacia.
