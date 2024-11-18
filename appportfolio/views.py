@@ -534,9 +534,12 @@ def generar_curriculum(request, pkcur):
     c = canvas.Canvas(response, pagesize=letter)
     width, height = letter  # Tamaño de la página
 
+    # Establecer la paleta de colores
+    color_principal = "#771011"
+    color_secundario = "#d1d1d1"
+
     # Cargar imagen de avatar
     try:
-        # avatar_path = "C:/vportfolio/portfolio/media/media/media/moneda3.jpg"
         avatar_path = os.path.join(settings.MEDIA_ROOT, "media/HJ.jpg")
         avatar = ImageReader(avatar_path)
         c.drawImage(avatar, width - 150, height - 150, width=100, height=100)
@@ -544,49 +547,54 @@ def generar_curriculum(request, pkcur):
         print(f"No se pudo cargar la imagen: {e}")
         pass  # Si no se encuentra la imagen, el PDF se generará sin ella
 
-    # Título del currículum en color
-    c.setFont("Helvetica-Bold", 20)
-    c.setFillColor(colors.HexColor("#4B8B9E"))  # Cambia a cualquier color hex que prefieras
+    # Título del currículum en color principal
+    c.setFont("Helvetica-Bold", 22)
+    c.setFillColor(colors.HexColor(color_principal))  # Usamos el color principal
     c.drawString(100, height - 100, f"Curriculum de {curriculum.nombre} {curriculum.ap1}")
 
-    # Información de contacto en color diferente
+    # Información de contacto en color secundario
     c.setFont("Helvetica", 12)
-    c.setFillColor(colors.HexColor("#306998"))  # Otro color para variar
+    c.setFillColor(colors.black)
     c.drawString(100, height - 130, f"Email: {curriculum.email}")
     c.drawString(100, height - 150, f"Teléfono: {curriculum.telefono}")
 
-    # Sección de estudios en otro color
+    # Sección de estudios en color secundario
     y_position = height - 200
     c.setFont("Helvetica-Bold", 14)
-    c.setFillColor(colors.HexColor("#FDD43B"))
+    c.setFillColor(colors.HexColor(color_principal))  # Color principal
     c.drawString(100, y_position, "Estudios:")
 
-    # Mostrar cada estudio con detalles
     y_position -= 20
+    c.setFont("Helvetica", 12)
+    c.setFillColor(colors.black)
     for estudio in estudios:
-        c.setFillColor(colors.black)
         c.drawString(100, y_position, f"{estudio.fk_Detalle_Estudio.titulo} en {estudio.fk_Detalle_Estudio.ciudad} ({estudio.fk_Detalle_Estudio.fechaInicio} - {estudio.fk_Detalle_Estudio.fechaFin})")
         y_position -= 20
 
     # Sección de experiencia laboral
     y_position -= 40
     c.setFont("Helvetica-Bold", 14)
-    c.setFillColor(colors.HexColor("#306998"))
+    c.setFillColor(colors.HexColor(color_principal))  # Color principal
     c.drawString(100, y_position, "Experiencia laboral:")
 
     y_position -= 20
     c.setFont("Helvetica", 12)
+    c.setFillColor(colors.black)
     for experiencia in experiencias:
-        c.setFillColor(colors.black)
         c.drawString(100, y_position, f"{experiencia.fk_Detalle_Experiencia.categoria} en {experiencia.fk_Detalle_Experiencia.empresa} ({experiencia.fk_Detalle_Experiencia.fecha_inicio} - {experiencia.fk_Detalle_Experiencia.fecha_fin})")
         y_position -= 20
+
+    # Agregar un espacio al final
+    y_position -= 40
+    c.setFillColor(colors.HexColor(color_secundario))  # Color secundario
+    c.setFont("Helvetica-Oblique", 10)
+    c.drawString(100, y_position, f"Generado con orgullo para {curriculum.nombre} {curriculum.ap1}")
 
     # Finalizar el PDF
     c.showPage()  # Si tienes más páginas
     c.save()
 
     return response
-
 
 def lista_noticias(request):
     noticias=Noticia.objects.all().order_by('-fecha_creacion')
