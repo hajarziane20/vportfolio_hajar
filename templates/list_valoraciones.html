@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog - Noticias</title>
+<script src="https://code.jquery.com"></script>
+<script src="https://maxcdn.bootstrapcdn.com" integrity="sha512-K1qjQ+NcF2TYO/eI3M" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy" crossorigin="anonymous">
+<link rel="stylesheet" href="https://">
+
+<style>
+.rating {
+    direction: rtl;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    color: #ffc107;
+}
+</style>
+
+{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="container mt-4">
+    <h1>Lista de Valoraciones</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Entrevista</th>
+                <th>Empresa</th>
+                <th>Votos Entrevista</th>
+                <th>Votos Empresa</th>
+                <th>Media</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for valoracion in valoraciones %}
+            <tr>
+                <td>{{ valoracion.id }}</td>
+                <td>{{ valoracion.entrevista }}</td>
+                <td>{{ valoracion.empresa }}</td>
+                <td>{{ valoracion.votos_entrevista }}</td>
+                <td>{{ valoracion.votos_empresa }}</td>
+                <td>{{ valoracion.media_aspectos }}</td>
+                <td><a href="{% url 'actualizar_valoracion' valoracion.id %}">Editar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

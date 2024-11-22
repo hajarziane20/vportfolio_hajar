@@ -5,7 +5,7 @@ from turtledemo.sorting_animate import Block
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 
 ################################################
 # TABLA 1 - Habilidades 
@@ -226,7 +226,18 @@ class Noticia(models.Model):
         return '%s,%s' % (self.id, self.titulo)
 
 
+class Valoracion(models.Model):
+    id = models.AutoField(primary_key=True)
+    votos_entrevista = models.DecimalField("Votos Entrevista", max_digits=3, decimal_places=1,null=True, blank=True)
+    votos_empresa=models.DecimalField("Votos Empresa", max_digits=3, decimal_places=1,null=True, blank=True)
+    media_aspectos = models.DecimalField("Media Aspectos",max_digits=3, decimal_places=1, null=True, blank=True)
+    entrevista = models.CharField(max_length=200, null=True, blank=True)
+    empresa = models.CharField(max_length=200, null=True, blank=True)
+    numValoraciones=models.IntegerField("Num Valoraciones",null=True, blank=True)
+    timestamp = models.DateTimeField("Fecha",default=timezone.now)
 
+    def __str__(self):
+        return f"ID: {self.id}, Empresa: {self.votos_empresa}, Entrevista: {self.entrevista}, Media: {self.media_aspectos}"
 
 
 

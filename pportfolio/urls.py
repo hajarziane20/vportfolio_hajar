@@ -58,7 +58,9 @@ urlpatterns = [
     path('generar_curriculum/<int:pkcur>/', views.generar_curriculum, name='generar_curriculum'),
     path('lista_noticias', views.lista_noticias, name='lista_noticias'),
     path('crear_noticia', views.crear_noticia, name='crear_noticia'),
-
+    path('listar_valoraciones',views.list_valoraciones,name='listar_valoraciones'),
+    path('actualizar_valoracion/<int:pk>/edit/',views.actualizar_valoracion,name='actualizar_valoracion'),
+    path('añadir_valoracion/add',views.añadir_valoracion,name='añadir_valoracion'),
 ]
 
 

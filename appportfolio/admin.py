@@ -87,6 +87,16 @@ class NoticiaAdmin(admin.ModelAdmin):
 admin.site.register(Noticia, NoticiaAdmin)
 
 
+@admin.register(Valoracion)
+class ValoracionAdmin(admin.ModelAdmin):
+    list_display = ('id','votos_entrevista','votos_empresa','media_aspectos','timestamp')
+    readonly_fields = ('media_aspectos',)
+
+    def save_model(self, request, obj, form, change):
+        #Calcula automaticamente la media
+        if obj.votos_entrevista and obj.votos_empresa:
+            obj.media_aspectos = (obj.votos_entrevista+obj.votos_empresa)/2
+        super().save_model(request, obj, form, change)
 
 
 

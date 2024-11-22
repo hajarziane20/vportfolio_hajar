@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog - Noticias</title>
+<script src="https://code.jquery.com"></script>
+<script src="https://maxcdn.bootstrapcdn.com" integrity="sha512-K1qjQ+NcF2TYO/eI3M" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy" crossorigin="anonymous">
+<link rel="stylesheet" href="https://">
+
+<style>
+.rating {
+    direction: rtl;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    color: #ffc107;
+}
+</style>
+
+{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="container mt-4">
+    <h1>Editar Valoración</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="votos_entrevista">Votos Entrevista:</label>
+        <div class="rating">
+            {% for star in "54321" %}
+            <input type="radio" id="entrevista-{{ star }}" name="votos_entrevista" value="{{ star }}"
+                {% if valoracion.votos_entrevista|stringformat:"d" == star %}checked{% endif %}>
+            <label for="entrevista-{{ star }}" title="{{ star }} estrellas">&#9733;</label>
+            {% endfor %}
+        </div>
+        <br>
+        <label for="votos_empresa">Votos Empresa:</label>
+        <div class="rating">
+            {% for star in "54321" %}
+            <input type="radio" id="empresa-{{ star }}" name="votos_empresa" value="{{ star }}"
+                {% if valoracion.votos_empresa|stringformat:"d" == star %}checked{% endif %}>
+            <label for="empresa-{{ star }}" title="{{ star }} estrellas">&#9733;</label>
+            {% endfor %}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+{% endblock content %}
